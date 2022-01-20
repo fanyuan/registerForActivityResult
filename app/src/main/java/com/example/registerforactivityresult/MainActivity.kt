@@ -9,11 +9,15 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.databinding.DataBindingUtil
+import com.example.registerforactivityresult.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     companion object{
         const val KEY_MSG = "key_msg"
     }
+
+    private lateinit var binding: ActivityMainBinding
 
     // registerForActivityResult
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
@@ -22,12 +26,15 @@ class MainActivity : AppCompatActivity() {
         val code = result.resultCode
         val data = result.data
         val msg = data?.getStringExtra(KEY_MSG)
-        toast("code = $code msg = $msg ")//data =$data
+        val msgContent = "code = $code msg = $msg "
+        toast(msgContent)//data =$data
+        binding.display.append(msgContent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil
+            .setContentView<ActivityMainBinding>(this,R.layout.activity_main)
         resultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(),launcherCallback)
     }
@@ -37,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         resultLauncher.launch(Intent(this,Activity2::class.java))
     }
 
-    fun toast(msg:String){
+    private fun toast(msg:String){
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show()
     }
 }
