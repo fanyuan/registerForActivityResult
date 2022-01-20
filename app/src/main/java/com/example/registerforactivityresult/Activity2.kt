@@ -20,7 +20,9 @@ class Activity2 : AppCompatActivity() {
 
 
     }
-    //进行数据返回操作
+    /**
+     * 进行数据返回操作
+     */
     fun click(view: View) {
 
         val data = Intent()
